@@ -43,7 +43,7 @@ def message(msg, color, x, y):
     mesg = font_style.render(msg, True, color)
     screen.blit(mesg, [x, y])
 
-
+        
 def display_score(score):
     """Display the current score on the screen."""
     value = score_font.render(f"Score: {score}", True, white)
@@ -138,8 +138,33 @@ def game_loop():
             if block == snake_head:
                 game_close = True
 
-        for segment in snake_list:
-            pygame.draw.rect(screen, white, [segment[0], segment[1], block_size, block_size])
+        for index, segment in enumerate(snake_list):
+            if index == len(snake_list) - 1:  
+        
+                pygame.draw.rect(screen, (0, 0, 0), [segment[0], segment[1], block_size, block_size], border_radius=5)
+
+        
+                eye_radius = 4
+                pupil_radius = 2
+                eye_offset_x = block_size // 4
+                eye_offset_y = block_size // 4
+
+               
+                left_eye_center = (segment[0] + eye_offset_x, segment[1] + eye_offset_y)
+                pygame.draw.circle(screen, white, left_eye_center, eye_radius)  
+                pygame.draw.circle(screen, (0, 0, 0), left_eye_center, pupil_radius)  
+
+       
+                right_eye_center = (segment[0] + block_size - eye_offset_x, segment[1] + eye_offset_y)
+                pygame.draw.circle(screen, white, right_eye_center, eye_radius)  
+                pygame.draw.circle(screen, (0, 0, 0), right_eye_center, pupil_radius)  
+
+            else:  
+                body_color = (255, 229, 180) if index % 2 == 0 else (255, 229, 180)
+                pygame.draw.rect(screen, body_color, [segment[0], segment[1], block_size, block_size], border_radius=5)
+
+
+
 
         display_score(score)  
 
